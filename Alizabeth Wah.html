@@ -8,8 +8,9 @@
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 50px;
+      padding: 20px;
       background-color: #f0f8ff;
+      margin: 0;
     }
     .container {
       max-width: 600px;
@@ -31,6 +32,31 @@
       font-size: 16px;
       margin-top: 20px;
       display: inline-block;
+    }
+    .info-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .pill {
+      background: #e8f5e9;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      flex: 1 1 calc(50% - 10px);
+      box-sizing: border-box;
+      text-align: left;
+    }
+    @media (max-width: 480px) {
+      .pill {
+        flex: 1 1 100%;
+        text-align: center;
+      }
+      .container {
+        padding: 15px;
+      }
     }
   </style>
 </head>
